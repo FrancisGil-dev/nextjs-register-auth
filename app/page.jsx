@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import Login from "./ui/Login";
 
 export default function Home() {

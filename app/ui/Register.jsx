@@ -9,48 +9,58 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, isLoading] = useState(false);
     const router = useRouter();
 
     const onRegister = async (e) => {
         e.preventDefault();
+        isLoading(true);
 
-        // input validation
+        // form validation 
         if (!email || !password || !username) {
+            isLoading(true);
             setError("Input Error: Please input all Fields");
             // timeout to remove
 
             setTimeout(() => {
-                setError('')
+                setError('');
+                isLoading(false)
             }, 1500);
         }
 
         // post data to the route using then
      
-         await axios.post("api/register", {email, password})
-         .then(res => {
-            if (res.status == 400) {
-                setError(res.data)
-
-                // setTimeout to remove the error
+         try {
+            const res = await axios.post("api/register", {email,password})
+            console.log(res);
+            if (res.status === 400) {
+                setError("Email already Existed")
                 setTimeout(() => {
-                    setError("")
-                }, 1500);
+                    isLoading(false)
+                    setError('')
+                },1500);
+
+                return
             }
-            if (res.status == 200) {
-                alert(res.data)
+            if (res.status === 200) {
+               alert("Successfully Registered")
 
                 // push to the login
-                router.push('/dashboard');
+                return router.push('/');
             }
-            if (res.status === 500) {
-                setError(res.data)
-                setTimeout(() => {
-                    setError('')
-                }, 1500);
+            if (res.response.status === 500) {
+               setError("Server Error: Please try again...")
+               setTimeout(() => {
+                    isLoading(false)
+                    setError("")
+               }, 1500);
+               return
+               
             }
-         })
-         .catch(err => console.error(err))
 
+         } catch (error) {
+            console.error(error);
+         }
             
            
        
@@ -68,7 +78,7 @@ const Register = () => {
         {error && (
             <span className='bg-red-500 text-white p-2'>{error}</span>
         )}
-        <button className='bg-white text-black p-2'>Register</button>
+        <button className='bg-white text-black p-2' disabled={loading}>{loading ? "Loading..." : "Register"}</button>
         {/*Already have an Account*/}
         <span className='text-white flex gap-3'>Already have an Account? 
             <a href="/" className='underline'>Login Here</a>
