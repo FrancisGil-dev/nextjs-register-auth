@@ -36,8 +36,8 @@ const Register = () => {
             if (res.status === 400) {
                 setError("Email already Existed")
                 setTimeout(() => {
-                    isLoading(false)
-                    setError('')
+                    isLoading(false);
+                    setError('');
                 },1500);
 
                 return
