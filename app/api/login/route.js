@@ -8,8 +8,6 @@ import { NextResponse } from "next/server";
 
 
 export const POST = async(req) => {
-    // environment config
-    dotenv.config();
     // covert incoming data to json;
     const {email, password} = await req.json();
    
