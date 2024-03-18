@@ -1,8 +1,18 @@
-import React from 'react'
+"use client"
+import React, {useEffect} from 'react';
+import { useRouter } from 'next/navigation';
+
+
+
 
 const Dashboard = () => {
+  const router = useRouter();
+ 
+
   return (
-    <div>Dashboard</div>
+    <>
+      Hello Dashboard
+    </>
   )
 }
 

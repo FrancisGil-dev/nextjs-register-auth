@@ -3,7 +3,11 @@ import Dashboard from '../ui/Dashboard'
 
 const page = () => {
   return (
-   <Dashboard/>
+   <section>
+    <main className='flex justify-center items-center h-screen'>
+      <Dashboard/>
+    </main>
+   </section>
   )
 }
 

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import Cookies from 'js-cookie';
 const Login = () => {
   const router = useRouter();
   const [error, setError] = useState('');
@@ -22,19 +22,21 @@ const Login = () => {
         setError('');
         setLoading(false)
       }, 1500);
-     
+     return;
     }
   
     try {
       const res = await axios.post("api/login", { email, password });
+       
+       
     
       if (res.status === 200) {
         alert('Login Successfully');
-        return router.replace('/dashboard');
+        Cookies.set("loggedIn", true)
+        return router.push('/dashboard');
       }
     
-      // Log response for debugging
-      console.log(res);
+     
     
       if (res.status === 400) {
         setError('Bad Request');
