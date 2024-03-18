@@ -7,6 +7,6 @@ export const middleware = (req) => {
     const url = req.url;
 
     if (!verify && url.includes("/dashboard")) {
-        return NextResponse.redirect('http://localhost:3000/')
+        return NextResponse.redirect('https://nextjs-register-auth.vercel.app/')
     }
 }
