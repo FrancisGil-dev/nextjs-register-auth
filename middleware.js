@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 export const middleware = (req) => {
-    // verrify the cookie
+    try {
+        // verrify the cookie
     const verify = req.cookies.get("loggedIn");
     // request the url
     const url = req.url;
@@ -21,5 +22,8 @@ export const middleware = (req) => {
             return NextResponse.redirect(local)
         }
         
+    }
+    } catch (error) {
+      console.error(error)  
     }
 }
