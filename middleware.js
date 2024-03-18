@@ -9,10 +9,14 @@ export const middleware = (req) => {
     if (!verify && url.includes("/dashboard")) {
         const local = 'http://localhost:3000';
         const productionURL = 'https://nextjs-register-auth.vercel.app/';
+        const domain = "https://nextjs-register-auth-h7la4uu1f-francisgildevs-projects.vercel.app/"
 
         if ( url.includes("/nextjs-register-auth.vercel.app")) {
             return NextResponse.redirect(productionURL);
         } 
+        else if(url.includes("nextjs-register-auth-h7la4uu1f-francisgildevs-projects.vercel.app")){
+            return NextResponse.redirect(domain)
+        }
         else{
             return NextResponse.redirect(local)
         }

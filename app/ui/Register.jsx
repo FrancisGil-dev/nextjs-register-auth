@@ -28,7 +28,7 @@ const Register = () => {
             }, 1500);
         }
 
-        // post data to the route using then
+        // post data to the route using try catch async
      
          try {
             const res = await axios.post("api/register", {email,password})
