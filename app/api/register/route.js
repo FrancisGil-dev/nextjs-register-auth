@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
     // convert json to incoming data
-    const { email, password } = await req.json();
+    const { username, email, password } = await req.json();
 
   
 
@@ -24,6 +24,7 @@ export const POST = async (req) => {
 
     //  create a new User to mongo db with a hashPass
      const newUser = new User({
+          username, 
           email,
           password: hashPass,
      })

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
 const Login = () => {
   const router = useRouter();
   const [error, setError] = useState('');
@@ -27,16 +28,28 @@ const Login = () => {
   
     try {
       const res = await axios.post("api/login", { email, password });
-       
+      
        
     
       if (res.status === 200) {
-        alert('Login Successfully');
-        Cookies.set("loggedIn", true)
-        return router.push('/dashboard');
+        Swal.fire({
+          title: "Login Successfully",
+          icon: 'success', 
+          showConfirmButton: true,
+          cofirmButtonText: 'Checks my Dashboard ?',
+        })
+        .then(result => {
+          if (result.isConfirmed) {
+            // set Cookies login to True
+            Cookies.set("isLogin", true);
+            // set the username
+            Cookies.set("username", res.data) 
+
+            return router.replace("dashboard")
+          }
+        })
+
       }
-    
-     
     
       if (res.status === 400) {
         setError('Bad Request');

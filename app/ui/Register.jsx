@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import React, {useState} from 'react'
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const Register = () => {
     // data
@@ -31,33 +33,52 @@ const Register = () => {
         // post data to the route using try catch async
      
          try {
-            const res = await axios.post("api/register", {email,password})
-            console.log(res);
-            if (res.status === 400) {
-                setError("Email already Existed")
-                setTimeout(() => {
-                    isLoading(false);
-                    setError('');
-                },1500);
-
-                return
-            }
-            if (res.status === 200) {
-               alert("Successfully Registered")
-
-                // push to the login
-                return router.push('/');
-            }
-            if (res.response.status === 500) {
-               setError("Server Error: Please try again...")
-               setTimeout(() => {
-                    isLoading(false)
-                    setError("")
-               }, 1500);
-               return
-               
-            }
-
+            await axios.post('api/register', {username, email, password})
+            .then(res => {
+                if (res.status === 400) {
+                    setError("Email already Existed");
+                    setTimeout(() => {
+                        isLoading(false);
+                        setError('');
+                    },1500);
+    
+                    return
+                }
+                if (res.status === 200) {
+                   
+                    // set the cookies to username to print the username in dashboard route
+                   
+                    //  alert the user
+                    Swal.fire({
+                        title: 'Successfully Registered',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Go to Dashboard',
+                        showCancelButton: true,
+                        cancelButtonText: 'Go to Login? '                        
+                    })
+                    .then(result =>{
+                        if(result.isConfirmed){
+                            Cookies.set("username", username);
+                            Cookies.set("loggedIn", true);
+                            return router.replace("/dashboard")
+                        }
+                        else{
+                            return router.replace("/")
+                        }
+                    } )
+                }
+                if (res.status === 500) {
+                   setError("Server Error: Please try again...")
+                   setTimeout(() => {
+                        isLoading(false)
+                        setError("")
+                   }, 1500);
+                   return
+                   
+                }
+    
+            }) 
+           
          } catch (error) {
             console.error(error);
          }

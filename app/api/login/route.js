@@ -20,10 +20,17 @@ export const POST = async(req) => {
         // compare the hash pass to current data
         const passIsMatch = await bcrypt.compare(password, findUser.password); // Added await here
 
+        // data
+        const credentials = {
+            username: findUser.username,
+            email: findUser.email,
+        }
+        console.log(credentials.username);
         // if the current password and the hashed password in database is correct
         if (passIsMatch) {
+            // send the username to the client
             // response it to client
-            return new NextResponse("Successfully Login...", {status: 200});
+            return new NextResponse( credentials.username, {status: 200});
         }
         
         else{
