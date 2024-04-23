@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 const Login = () => {
+  // set the timeout to 10seconds
+
+  axios.defaults.timeout = 10000;
   const router = useRouter();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
